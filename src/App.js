@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container } from 'react-bootstrap';
+
 // step 1:
 // write a class that represents the game. It contains a 2d matrix for size N by N. 
 
@@ -213,13 +216,12 @@ class Game {
 //button- to click next step()
 //button- to clear everything 
 
-
 function App() {
   const [board, setBoard] = useState([])
 
   useEffect(() => {
     //display the board  10x10? 
-    let game = new Game(10, 10)
+    let game = new Game(50, 50)
     let tempboard = game.board
     // setBoard(makeboard)
     setBoard(tempboard)
@@ -233,11 +235,14 @@ function App() {
 
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <div> {board.map((squareLists) => squareLists.map((square) => <button>square</button>))} square</div>
-      </header>
+    <div>
+      <Container className='grid'>
+        {board.map((squareLists) => squareLists.map((square) =>
+          <button className='squareBorder'> </button>))}
+      </Container>
+
     </div>
+
   );
 }
 
