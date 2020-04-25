@@ -16,18 +16,22 @@ import { Container } from 'react-bootstrap';
 //true is alive 
 
 class Game {
-  constructor(row, col) {
+  constructor(row, col, color, id) {
     this.row = row
     this.col = col
-    this.board = this.makeBoard(row, col)
+    this.board = this.makeBoard(row, col, color, id)
+    this.color = color
+    this.id = id
   }
 
-  makeBoard(row, col) {
+  makeBoard(row, col, color, id) {
     let board = []
+    color = null
     for (let i = 0; i < row; i++) {
       let tempCol = []
       for (let j = 0; j < col; j++) {
-        tempCol.push(false)
+        id = [i, j]
+        tempCol.push({ id, color })
       }
       board.push(tempCol)
     }
@@ -51,99 +55,97 @@ class Game {
   countNeighbors(row, col) {
     let neighborsCounter = 0
     let dup = new Set([])
-    if (row - 1 >= 0 || col - 1 >= 0 || row + 1 <= this.board.length || col + 1 <= this.board.length) {
-      // console.log('hi2')
-      if (row - 1 >= 0) {
-        if (this.board[row - 1][col]) {
-          let n = [row - 1, col]
-          n = JSON.stringify(n)
-          if (!dup.has(n)) {
-            neighborsCounter++
-            dup.add(n)
-            // console.log(n, 'hhh')
-          }
-        }
-      }
-      if (col - 1 >= 0) {
-        if (this.board[row][col - 1]) {
-          let n = [row, col - 1]
-          n = JSON.stringify(n)
-          // console.log(n, 'me')
-          if (!dup.has(n)) {
-            // console.log(row, ',', col - 1, 'wah')
-            neighborsCounter++
-            dup.add(n)
-            // console.log(dup, row, col - 1, 'here?')
-          }
-        }
-      }
-      if (row + 1 < this.board.length) {
-        if (this.board[row + 1][col]) {
-          let n = [row + 1, col]
-          n = JSON.stringify(n)
-          if (!dup.has(n)) {
-            neighborsCounter++
-            dup.add(n)
-          }
-        }
-      }
 
-      if (col + 1 < this.board.length) {
-        if (this.board[row][col + 1]) {
-          let n = [row, col + 1]
-          n = JSON.stringify(n)
-          if (!dup.has(n)) {
-            neighborsCounter++
-            dup.add(n)
-          }
+    // console.log('hi2')
+    if (row - 1 >= 0) {
+      if (this.board[row - 1][col]) {
+        let n = [row - 1, col]
+        n = JSON.stringify(n)
+        if (!dup.has(n)) {
+          neighborsCounter++
+          dup.add(n)
+          // console.log(n, 'hhh')
         }
       }
-      if (col - 1 >= 0 && row - 1 >= 0) {
-        if (this.board[row - 1][col - 1]) {
-          let n = [row - 1, col - 1]
-          n = JSON.stringify(n)
-          if (!dup.has(n)) {
-            neighborsCounter++
-            dup.add(n)
-          }
+    }
+    if (col - 1 >= 0) {
+      if (this.board[row][col - 1]) {
+        let n = [row, col - 1]
+        n = JSON.stringify(n)
+        // console.log(n, 'me')
+        if (!dup.has(n)) {
+          // console.log(row, ',', col - 1, 'wah')
+          neighborsCounter++
+          dup.add(n)
+          // console.log(dup, row, col - 1, 'here?')
         }
       }
-      if (col + 1 < this.board.length && row + 1 < this.board.length) {
-        if (this.board[row + 1][col + 1]) {
-          let n = [row + 1, col + 1]
-          n = JSON.stringify(n)
-          if (!dup.has(n)) {
-            neighborsCounter++
-            dup.add(n)
-          }
+    }
+    if (row + 1 < this.board.length) {
+      if (this.board[row + 1][col]) {
+        let n = [row + 1, col]
+        n = JSON.stringify(n)
+        if (!dup.has(n)) {
+          neighborsCounter++
+          dup.add(n)
         }
       }
+    }
 
-      if (col + 1 < this.board.length && row - 1 >= 0) {
-        if (this.board[row - 1][col + 1]) {
-          let n = [row - 1, col + 1]
-          n = JSON.stringify(n)
-          if (!dup.has(n)) {
-            neighborsCounter++
-            dup.add(n)
-          }
-        }
-
-      }
-
-      if (col - 1 >= 0 && row + 1 < this.board.length) {
-        if (this.board[row + 1][col - 1]) {
-          let n = [row + 1, col - 1]
-          n = JSON.stringify(n)
-          if (!dup.has(n)) {
-            neighborsCounter++
-            dup.add(n)
-          }
+    if (col + 1 < this.board.length) {
+      if (this.board[row][col + 1]) {
+        let n = [row, col + 1]
+        n = JSON.stringify(n)
+        if (!dup.has(n)) {
+          neighborsCounter++
+          dup.add(n)
         }
       }
+    }
+    if (col - 1 >= 0 && row - 1 >= 0) {
+      if (this.board[row - 1][col - 1]) {
+        let n = [row - 1, col - 1]
+        n = JSON.stringify(n)
+        if (!dup.has(n)) {
+          neighborsCounter++
+          dup.add(n)
+        }
+      }
+    }
+    if (col + 1 < this.board.length && row + 1 < this.board.length) {
+      if (this.board[row + 1][col + 1]) {
+        let n = [row + 1, col + 1]
+        n = JSON.stringify(n)
+        if (!dup.has(n)) {
+          neighborsCounter++
+          dup.add(n)
+        }
+      }
+    }
 
+    if (col + 1 < this.board.length && row - 1 >= 0) {
+      if (this.board[row - 1][col + 1]) {
+        let n = [row - 1, col + 1]
+        n = JSON.stringify(n)
+        if (!dup.has(n)) {
+          neighborsCounter++
+          dup.add(n)
+        }
+      }
 
     }
+
+    if (col - 1 >= 0 && row + 1 < this.board.length) {
+      if (this.board[row + 1][col - 1]) {
+        let n = [row + 1, col - 1]
+        n = JSON.stringify(n)
+        if (!dup.has(n)) {
+          neighborsCounter++
+          dup.add(n)
+        }
+      }
+    }
+
     return neighborsCounter
   }
 
@@ -204,6 +206,7 @@ class Game {
   }
 
 }
+
 // const meow = new Game(10, 10)
 
 // meow.toggle(1, 1)
@@ -218,27 +221,46 @@ class Game {
 
 function App() {
   const [board, setBoard] = useState([])
-
+  const [myclassName, setMyClassName] = useState()
   useEffect(() => {
     //display the board  10x10? 
-    let game = new Game(50, 50)
+    let game = new Game(25, 25)
     let tempboard = game.board
     // setBoard(makeboard)
     setBoard(tempboard)
 
-
   }, []);
 
+  console.log(board)
+
+  function onclickChangeColor(squareID) {
+    let copyBoard = board
+
+    console.log(squareID)
+    // console.log(copyBoard)
+    // for (let i = 0; i < copyBoard.length; i++) {
+    //   for (let j = 0; j < copyBoard[j].length; j++) {
+    //     if (copyBoard[row][col]) {
+    //       console.log(copyBoard)
+    //       // copyBoard[row][col]['color'] = 'black'
+    //     }
+    //   }
+    // }
+
+    // return board
+  }
 
 
-  // console.log(board, '')
+
+
+
 
 
   return (
     <div>
       <Container className='grid'>
         {board.map((squareLists) => squareLists.map((square) =>
-          <button className='squareBorder'> </button>))}
+          <button onClick={(e) => onclickChangeColor(square.id)} className='squareBorder'> </button>))}
       </Container>
 
     </div>
