@@ -221,7 +221,6 @@ class Game {
 
 function App() {
   const [board, setBoard] = useState([])
-  const [myclassName, setMyClassName] = useState()
   useEffect(() => {
     //display the board  10x10? 
     let game = new Game(25, 25)
@@ -231,39 +230,38 @@ function App() {
 
   }, []);
 
-  console.log(board)
 
-  function onclickChangeColor(squareID) {
+  function onclickChangeColor(square) {
     let copyBoard = board
-
-    console.log(squareID)
+    let pink = 'pink'
+    let row = square['id'][0]
+    let col = square['id'][1]
+    let color = square['color']
+    let id = square['id']
     // console.log(copyBoard)
-    // for (let i = 0; i < copyBoard.length; i++) {
-    //   for (let j = 0; j < copyBoard[j].length; j++) {
-    //     if (copyBoard[row][col]) {
-    //       console.log(copyBoard)
-    //       // copyBoard[row][col]['color'] = 'black'
-    //     }
-    //   }
-    // }
+    copyBoard[row][col]['color'] = pink
 
+    setBoard([...copyBoard])
+    console.log(square, row, col)
     // return board
+    console.log(square.color)
   }
 
-
-
-
+  console.log(board)
 
 
 
   return (
     <div>
       <Container className='grid'>
-        {board.map((squareLists) => squareLists.map((square) =>
-          <button onClick={(e) => onclickChangeColor(square.id)} className='squareBorder'> </button>))}
+        <h1>I NEED SOME SPACE HERE </h1>
+        {board.map((squareLists) => squareLists.map((grid) =>
+          <button className={`squareBorder ${grid.color}`} onClick={(e) => onclickChangeColor(grid)
+          }  > </button>))}
+
       </Container>
 
-    </div>
+    </div >
 
   );
 }
