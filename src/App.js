@@ -244,22 +244,33 @@ function App() {
   }
 
   function step(board) {
-    let tempBoard = board;
+    let tempBoard = JSON.parse(JSON.stringify(board));
 
-    for (let row = 0; row < tempBoard.length; row++) {
-      for (let col = 0; col < tempBoard.length; col++) {
-        const cell = tempBoard[row][col]['color']
-        let neighborsCounter = getNeighbors(tempBoard, row, col)
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board.length; col++) {
+        const cell = board[row][col]['color']
+        let neighborsCounter = getNeighbors(board, row, col)
         // console.log(tempBoard, '1', neighborsCounter)
-        if (cell) {
+        if (cell === 'pink') {
+          console.log('1')
           if (neighborsCounter <= 1) {
             tempBoard[row][col]['color'] = null
             // console.log(tempBoard, '2', neighborsCounter)
           }
-          if (neighborsCounter === 3 || neighborsCounter === 2) {
+
+          if (neighborsCounter == 3) {
             tempBoard[row][col]['color'] = 'pink'
+            console.log('meow3')
             // console.log(tempBoard, '3', neighborsCounter)
           }
+
+          console.log(neighborsCounter, neighborsCounter === 2)
+          if (neighborsCounter == 2) {
+            tempBoard[row][col]['color'] = 'pink'
+            console.log('meow')
+            // console.log(tempBoard, '3', neighborsCounter)
+          }
+          console.log(tempBoard, 'wat', board, 'board')
           if (neighborsCounter >= 4) {
             tempBoard[row][col]['color'] = null
           }
@@ -270,7 +281,9 @@ function App() {
           }
         }
       }
+
     }
+
     setBoard([...tempBoard])
 
     // console.log(Game.countNeighbors(square['id'][0], square['id'][1]))
